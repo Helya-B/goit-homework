@@ -14,7 +14,6 @@ def add_contact(phonebook, name, phone_number): # Додавання конта�
 
     with open("Data/phonebook.txt", "a") as file: # Зберігання контактів
         file.write(f"{name} {phone_number}\n")
-    file.close()
 
     print(f"Контакт {name} з номером {phone_number}  додали до книги.")
 
@@ -28,12 +27,10 @@ def delete_contact(phonebook, name_to_delete): # ВИдалення контак
 
         with open("Data/phonebook.txt", "r") as file:
             lines = file.readlines()
-        file.close()
         with open("Data/phonebook.txt", "w") as file:
             for line in lines:
                 if not line.startswith(name_to_delete):
                     file.write(line)
-        file.close()
 
 
 def update_contact(phonebook, name, new_phone_number): # Зміна контакту
@@ -92,6 +89,7 @@ def main():
             break
         else:
             print("Невідома команда. Спробуйте знову.")
+
 
 if __name__ == "__main__":
     main()
