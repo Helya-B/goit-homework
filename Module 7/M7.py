@@ -27,8 +27,8 @@ def parse_input(user_input):
 
 def main():
     print("Вітаю, Ваш асистент готовий до роботи!!\n")
-    book = AddressBook()
     print("Доступні команди:")
+
     commands = [
         "add <і`мя> <номер>",
         "phone <і`мя>",
@@ -40,12 +40,14 @@ def main():
         "hello",
         "exit"
     ]
+
     for command in commands:
         print(f"\t{command}")
 
+    book = AddressBook()
+
     while True:
-        user_input = input(
-            "\nВведіть команду: ")
+        user_input = input("\nВведіть команду: ")
         command, args = parse_input(user_input)
 
         if command == "add":
