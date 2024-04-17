@@ -73,7 +73,7 @@ class Record:
         self.birthday = Birthday(birthday)
 
     def __str__(self):
-        return f"Імя: {self.name.value}, телефони: {'; '.join(p.value for p in self.phones)}, дата народження: {self.birthday.value.strftime('%d.%m.%Y')}"
+        return f"Імя: {self.name.value}, телефони: {'; '.join(p.value for p in self.phones)}, дата народження: {self.birthday.value.strftime('%d.%m.%Y') if self.birthday is not None else 'Відсутня'}"
 
 
 class AddressBook(UserDict):
