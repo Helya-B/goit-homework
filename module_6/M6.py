@@ -25,7 +25,8 @@ class Phone(Field):
         else:
             raise Exception("Phone number is not valid")
 
-    def validate(self, phonenumber):
+    @staticmethod
+    def validate(phonenumber):
         return True if re.match(r"^\d{10}$", phonenumber) else False
 
 
