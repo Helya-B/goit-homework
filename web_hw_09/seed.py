@@ -23,7 +23,6 @@ if __name__ == "__main__":
     with open("quotes.json", encoding="utf-8") as fd:
         data = json.load(fd)
         for el in data:
-            logging.error(el)
             author, *_ = Author.objects(fullname=el.get("author"))
             quote = Quote(quote=el.get("quote"), tags=el.get("tags"), author=author)
             quote.save()
