@@ -1,0 +1,14 @@
+{% extends "main.html" %}
+
+{% block content %}
+
+<div class="grid">
+    <div>
+        <h2>{{ author.fullname }}</h2>
+        <p>Birth date: {{ author.born_date }}</p>
+        <p>Birth location: {{ author.born_location }}</p>
+        <p>Description: {{ author.description }}</p>
+    </div>
+</div>
+
+{% endblock %}
