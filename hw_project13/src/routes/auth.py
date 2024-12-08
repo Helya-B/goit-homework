@@ -7,14 +7,13 @@ from sqlalchemy.orm import Session
 from src.database.db import get_db
 from src.database.models import User
 from src.schemas import UserModel
-from src.helpers.auth import create_access_token, get_email_from_token, Hash, create_refresh_token
+from src.helpers.auth import create_access_token, get_email_from_token, create_refresh_token, hash_handler
 
 from src.services.email import send_email
 
 from src.repository import users as user_repository
 
 
-hash_handler = Hash()
 security = HTTPBearer()
 
 router = APIRouter(prefix='/auth', tags=["authorization"])
@@ -22,6 +21,12 @@ router = APIRouter(prefix='/auth', tags=["authorization"])
 
 @router.post("/signup")
 async def signup(body: UserModel, background_tasks: BackgroundTasks, request: Request, db: Session = Depends(get_db)):
+    """
+    Sign up a new user
+
+    :param body:
+    :type body: UserModel
+    """
     exist_user = await user_repository.get_user_by_email(body.email, db)
     if exist_user:
         raise HTTPException(status_code=status.HTTP_409_CONFLICT, detail="Account already exists")
@@ -41,8 +46,8 @@ async def login(body: OAuth2PasswordRequestForm = Depends(), db: Session = Depen
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid email")
     if not user.confirmed:
         raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Email not confirmed")
-    # if not hash_handler.verify_passworassword(body.password, user.password):
-    #     raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
+    if not hash_handler.verify_password(body.password, user.password):
+        raise HTTPException(status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid password")
     # Generate JWT
     access_token = await create_access_token(data={"sub": user.email})
     refresh_token = await create_refresh_token(data={"sub": user.email})

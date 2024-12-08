@@ -17,7 +17,7 @@ load_dotenv()
 
 
 class Hash:
-    pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+    pwd_context = CryptContext(schemes=["sha256_crypt"], deprecated="auto")
 
     def verify_password(self, plain_password, hashed_password):
         return self.pwd_context.verify(plain_password, hashed_password)
@@ -25,6 +25,7 @@ class Hash:
     def get_password_hash(self, password: str):
         return self.pwd_context.hash(password)
 
+hash_handler = Hash()
 
 SECRET_KEY = settings.jwt_secret_key
 ALGORITHM = "HS256"
